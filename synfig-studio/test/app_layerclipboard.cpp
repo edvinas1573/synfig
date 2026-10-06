@@ -38,7 +38,7 @@ struct SkeletonFixture
 		// Set the actual node links, rather than a detached vector of Bone values.
 		ASSERT(child->set_link("parent", ValueNode_Const::create(root)))
 		ASSERT(tip->set_link("parent", ValueNode_Const::create(child)))
-		ASSERT(skeleton->connect_dynamic_param("bones", bones))
+		ASSERT(skeleton->connect_dynamic_param("bones", bones.get()))
 		canvas->push_back(skeleton);
 		auto link = ValueNode_BoneLink::create(Vector(3, 5));
 		ASSERT(link->set_link("bone", ValueNode_Const::create(tip)))

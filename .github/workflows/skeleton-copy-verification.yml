@@ -20,7 +20,7 @@ jobs:
       - name: Configure complete application and tests
         run: cmake -S . -B build -G Ninja -DENABLE_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PWD/build/install"
       - name: Build regression against unmodified application code
-        run: cmake --build build --target test_app_layerclipboard --parallel 2
+        run: cmake --build build --target test_app_layerclipboard synfig_bin --parallel 2
       - name: Reproduce clipboard failure on original code
         run: xvfb-run -a dbus-run-session -- ctest --test-dir build -R '^test_app_layerclipboard$' --output-on-failure
       - name: Preserve regression evidence
