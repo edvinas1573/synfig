@@ -1,7 +1,7 @@
 name: Skeleton copy verification
 on:
   push:
-    branches: [verification/skeleton-copy, bounty/skeleton-copy]
+    branches: [verification/skeleton-copy, verification/skeleton-reproduction, bounty/skeleton-copy]
   workflow_dispatch:
 permissions:
   contents: read
@@ -19,10 +19,10 @@ jobs:
           sudo apt-get install -y build-essential cmake ninja-build gettext intltool shared-mime-info libltdl-dev libpng-dev libfftw3-dev libfreetype-dev libfribidi-dev libfontconfig-dev libxml2-dev libtiff-dev libmlt-dev libmlt++-dev libmlt-data libgl1-mesa-dev imagemagick libsdl2-dev libmng-dev libjack-jackd2-dev libgtkmm-3.0-dev libglibmm-2.4-dev libsigc++-2.0-dev libxml++2.6-dev libmagick++-dev libxslt1-dev python3-lxml xvfb dbus-x11 at-spi2-core
       - name: Configure complete application and tests
         run: cmake -S . -B build -G Ninja -DENABLE_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$PWD/build/install"
-      - name: Build complete application
-        run: cmake --build build --parallel 2
-      - name: Run original regression suite
-        run: xvfb-run -a dbus-run-session -- ctest --test-dir build --output-on-failure
+      - name: Build regression against unmodified application code
+        run: cmake --build build --target test_app_layerclipboard --parallel 2
+      - name: Reproduce clipboard failure on original code
+        run: xvfb-run -a dbus-run-session -- ctest --test-dir build -R '^test_app_layerclipboard$' --output-on-failure
       - name: Preserve regression evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include "test_base.h"
 #include <synfig/canvas.h>
+#include <synfig/layer.h>
 #include <synfig/valuenodes/valuenode_bone.h>
 #include <synfig/valuenodes/valuenode_bonelink.h>
 #include <synfig/valuenodes/valuenode_staticlist.h>
+#include <synfig/valuenodes/valuenode_const.h>
+#include <synfigapp/action.h>
 #include <synfigapp/main.h>
 #include <list>
 
